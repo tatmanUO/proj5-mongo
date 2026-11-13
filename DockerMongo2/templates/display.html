@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Saved Brevet Controls</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/calc.css') }}">
+
+    <style>
+        body {
+            padding-top: 20px;
+            padding-bottom: 40px;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .controls-table {
+            margin-top: 20px;
+        }
+
+        .controls-table th {
+            background-color: #f5f5f5;
+        }
+
+        .button-container {
+            margin-top: 25px;
+        }
+
+        .record-count {
+            margin-top: 15px;
+            color: #666;
+        }
+
+        .empty-message {
+            padding: 25px;
+            text-align: center;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Page heading -->
+    <div class="page-header">
+        <h1>Saved Brevet Controls</h1>
+
+        <p>
+            Control times retrieved from MongoDB.
+        </p>
+    </div>
+
+    <!-- Record count -->
+    <div class="record-count">
+        <strong>Total Saved Controls:</strong>
+        {{ controls|length }}
+    </div>
+
+    {% if controls %}
+
+        <!-- Saved controls table -->
+        <div class="table-responsive">
+
+            <table class="table table-striped table-bordered controls-table">
+
+                <thead>
+                    <tr>
+                        <th>Miles</th>
+                        <th>Km</th>
+                        <th>Location</th>
+                        <th>Open</th>
+                        <th>Close</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for control in controls %}
+
+                        <tr>
+                            <td>
+                                {{ control.miles }}
+                            </td>
+
+                            <td>
+                                {{ control.km }}
+                            </td>
+
+                            <td>
+                                {% if control.location %}
+                                    {{ control.location }}
+                                {% else %}
+                                    <span class="text-muted">
+                                        Not specified
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {{ control.open }}
+                            </td>
+
+                            <td>
+                                {{ control.close }}
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% else %}
+
+        <!-- No saved controls -->
+        <div class="empty-message">
+
+            <h3>No Saved Controls</h3>
+
+            <p>
+                There are currently no brevet controls
+                stored in the database.
+            </p>
+
+            <p>
+                Return to the calculator, enter control
+                distances, and click Submit.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+    <!-- Navigation -->
+    <div class="button-container">
+
+        <a href="{{ url_for('index') }}"
+           class="btn btn-primary">
+            Back to Calculator
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
